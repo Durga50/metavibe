@@ -144,5 +144,130 @@
         observer.observe(counter);
     });
 
+    // Typing Effect for Hero Welcome Text
+    const welcomeTextElement = document.getElementById('hero-welcome-text');
+    const staticPrefix = "Welcome to ";
+    const textToType = "KD MetaVibe";
+    let charIndex = 0;
+    const typingSpeed = 70; // Adjust typing speed (milliseconds per character)
+    const eraseSpeed = 30; // Adjust erasing speed
+    const newTextDelay = 1500; // Delay before typing new text
+
+    function typeText() {
+        if (charIndex < textToType.length) {
+            welcomeTextElement.innerHTML = staticPrefix + textToType.substring(0, charIndex + 1);
+            charIndex++;
+            setTimeout(typeText, typingSpeed);
+        } else {
+            colorText(); // Apply color after typing is complete
+            setTimeout(eraseText, newTextDelay);
+        }
+    }
+
+    function eraseText() {
+        if (charIndex > 0) {
+            // Remove coloring before erasing and erase the dynamic part
+            welcomeTextElement.innerHTML = staticPrefix + textToType.substring(0, charIndex - 1);
+            charIndex--;
+            setTimeout(eraseText, eraseSpeed);
+        } else {
+            setTimeout(typeText, typingSpeed);
+        }
+    }
+
+    function colorText() {
+        const coloredText = staticPrefix +
+                            `<span class="text-primary">` +
+                            textToType +
+                            `</span>`;
+        welcomeTextElement.innerHTML = coloredText;
+    }
+
+    // Start the typing animation when the page loads
+    if (welcomeTextElement) {
+        welcomeTextElement.textContent = staticPrefix; // Set the static prefix initially
+        setTimeout(typeText, 500); // Small delay before starting to type
+    }
+
+    // Magnetic Cursor Effect
+    const cursorContainer = document.createElement('div');
+    cursorContainer.id = 'cursor-effect-container';
+    document.body.appendChild(cursorContainer);
+
+    const cursorDot = document.createElement('div');
+    cursorDot.className = 'cursor-dot';
+    cursorContainer.appendChild(cursorDot);
+
+    let mouseX = 0;
+    let mouseY = 0;
+    let cursorX = 0;
+    let cursorY = 0;
+    let lastParticleTime = 0; // To control particle spawning rate
+    const particleInterval = 50; // milliseconds between particles
+
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+    function animateCursor() {
+        // Smoothly move the main cursor dot
+        cursorX += (mouseX - cursorX) * 0.15; // Adjust smoothing factor
+        cursorY += (mouseY - cursorY) * 0.15; // Adjust smoothing factor
+        cursorDot.style.left = cursorX + 'px';
+        cursorDot.style.top = cursorY + 'px';
+
+        // Create follower particles at a controlled rate
+        const currentTime = Date.now();
+        if (currentTime - lastParticleTime > particleInterval) {
+            const particle = document.createElement('div');
+            particle.className = 'follower-particle';
+            cursorContainer.appendChild(particle);
+
+            const size = Math.random() * 8 + 4; // Random size between 4px and 12px
+            const angle = Math.random() * Math.PI * 2; // Random direction
+            const distance = Math.random() * 20 + 5; // Random distance between 5px and 25px
+
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            // Spawn particles slightly behind the smoothed cursor position for a trailing effect
+            particle.style.left = cursorX + Math.cos(angle) * 5 + 'px'; // Small offset
+            particle.style.top = cursorY + Math.sin(angle) * 5 + 'px'; // Small offset
+            
+            // Animate particle movement and fade
+            const animationDuration = parseFloat(getComputedStyle(particle).animationDuration) * 1000;
+
+            particle.animate([
+                { transform: `translate(-50%, -50%) translate(0, 0)`, opacity: 1 },
+                { transform: `translate(-50%, -50%) translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`, opacity: 0 }
+            ], {
+                duration: animationDuration,
+                easing: 'ease-out',
+                fill: 'forwards'
+            }).onfinish = () => particle.remove(); // Remove particle after animation
+
+            // Limit the number of particles to prevent performance issues (optional, as they self-remove)
+            // if (cursorContainer.children.length > 50) { 
+            //     cursorContainer.removeChild(cursorContainer.children[0]);
+            // }
+            lastParticleTime = currentTime; // Update last particle creation time
+        }
+
+        requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    // Hover effect for clickable elements
+    const clickableElements = document.querySelectorAll('a, button, input, textarea, select, .btn');
+
+    clickableElements.forEach(element => {
+        element.addEventListener('mouseenter', () => {
+            cursorDot.classList.add('hover');
+        });
+        element.addEventListener('mouseleave', () => {
+            cursorDot.classList.remove('hover');
+        });
+    });
+
 })(jQuery);
 

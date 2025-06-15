@@ -4,8 +4,8 @@
             <div class="container">
                 <div class="row g-5 align-items-center">
                     <div class="col-lg-7 col-md-12">
-                        <small class="d-inline-block fw-bold text-dark text-uppercase bg-light border border-primary rounded-pill px-4 py-1 mb-4 animated bounceInDown">Welcome to KD MetaVibe</small>
-                        <h1 class="display-1 mb-4 animated bounceInDown">Turn Your Vision Into Reality with <span class="text-primary">KD  </span> MetaVibe  </h1>
+                        <small id="hero-welcome-text" class="d-inline-block fw-bold text-dark text-uppercase rounded-pill px-4 py-1 mb-4">Welcome to KD MetaVibe</small>
+                        <h1 class="display-1 mb-4 animated bounceInDown hero-heading">Turn Your Vision Into Reality with <span class="text-primary">KD  </span> MetaVibe  </h1>
                         <a href="contact.php" class="btn btn-primary border-0 rounded-pill py-3 px-4 px-md-5 me-4 animated bounceInLeft">Contact Us</a>
                         <a href="services.php" class="btn btn-dark border-0 rounded-pill py-3 px-4 px-md-5 animated bounceInLeft">Explore Our Services</a>
                     </div>
@@ -18,7 +18,6 @@
             </div>
         </div>
         <!-- Hero End -->
-
 
         <!-- About Satrt -->
         <div class="container-fluid py-6">
@@ -55,31 +54,31 @@
         <!-- Stats Start -->
         <div class="container-fluid py-6">
             <div class="container">
-                <div class="row g-4">
+                       <div class="row g-4">
                     <div class="col-lg-3 col-md-6 wow bounceInUp" data-wow-delay="0.1s">
                         <div class="stats-card text-center">
                             <i class="fas fa-clock icon"></i>
                             <h2 class="counter" data-target="1">0</h2>
                             <span class="plus">+</span>
                             <p class="label">Years Experience</p>
-                        </div>
-                    </div>
+                                </div>
+                            </div>
                     <div class="col-lg-3 col-md-6 wow bounceInUp" data-wow-delay="0.3s">
                         <div class="stats-card text-center">
                             <i class="fas fa-users icon"></i>
                             <h2 class="counter" data-target="2">0</h2>
                             <span class="plus">+</span>
                             <p class="label">Satisfied Clients</p>
-                        </div>
-                    </div>
+                                </div>
+                            </div>
                     <div class="col-lg-3 col-md-6 wow bounceInUp" data-wow-delay="0.5s">
                         <div class="stats-card text-center">
                             <i class="fas fa-project-diagram icon"></i>
                             <h2 class="counter" data-target="2">0</h2>
                             <span class="plus">+</span>
                             <p class="label">Projects Completed</p>
-                        </div>
-                    </div>
+                                </div>
+                            </div>
                     <div class="col-lg-3 col-md-6 wow bounceInUp" data-wow-delay="0.7s">
                         <div class="stats-card text-center">
                             <i class="fas fa-star icon"></i>
@@ -88,9 +87,9 @@
                             <p class="label">Client Satisfaction</p>
                         </div>
                     </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
         <!-- Stats End -->
 
 
@@ -106,41 +105,41 @@
                         <div class="service-card">
                             <div class="service-icon">
                                 <i class="fas fa-laptop-code"></i>
-                            </div>
+                                </div>
                             <h3>Static Website Development</h3>
                             <p>Fast-loading, secure, and easy to deploy</p>
                             <ul class="service-features">
                                 <li>Ideal for portfolios, resumes, and small businesses</li>
                                 <li>Built using HTML, CSS, and basic JavaScript</li>
                             </ul>
+                            </div>
                         </div>
-                    </div>
                     <div class="col-lg-4 col-md-6 wow bounceInUp" data-wow-delay="0.3s">
                         <div class="service-card">
                             <div class="service-icon">
                                 <i class="fas fa-sync-alt"></i>
-                            </div>
+                    </div>
                             <h3>Dynamic Website Development</h3>
                             <p>Interactive websites with real-time content updates</p>
                             <ul class="service-features">
                                 <li>Connected to databases for login systems, forms, etc.</li>
                                 <li>Suitable for startups, blogs, dashboards, and web apps</li>
                             </ul>
-                        </div>
-                    </div>
+                                </div>
+                            </div>
                     <div class="col-lg-4 col-md-6 wow bounceInUp" data-wow-delay="0.5s">
                         <div class="service-card">
                             <div class="service-icon">
                                 <i class="fas fa-shopping-cart"></i>
-                            </div>
+                        </div>
                             <h3>E-commerce Website Development</h3>
                             <p>Product listings, shopping cart, and payment integration</p>
                             <ul class="service-features">
                                 <li>Admin panel for order, inventory, and user management</li>
                                 <li>Built with platforms like PHP, WooCommerce, or custom stacks</li>
                             </ul>
-                        </div>
                     </div>
+                                </div>
                     <div class="col-lg-4 col-md-6 wow bounceInUp" data-wow-delay="0.7s">
                         <div class="service-card">
                             <div class="service-icon">
@@ -158,31 +157,31 @@
                         <div class="service-card">
                             <div class="service-icon">
                                 <i class="fas fa-palette"></i>
-                            </div>
+                                </div>
                             <h3>Web Design (UI/UX)</h3>
                             <p>Custom, mobile-friendly designs for all devices</p>
                             <ul class="service-features">
                                 <li>Clean layouts focusing on user experience and branding</li>
                                 <li>Tools like Figma, Canva, or direct HTML/CSS implementation</li>
-                            </ul>
-                        </div>
-                    </div>
+                    </ul>
+                                                </div>
+                                            </div>
                     <div class="col-lg-4 col-md-6 wow bounceInUp" data-wow-delay="1.1s">
                         <div class="service-card">
                             <div class="service-icon">
                                 <i class="fas fa-cogs"></i>
-                            </div>
+                                        </div>
                             <h3>Custom Website Solutions</h3>
                             <p>Built from scratch to match your exact business needs</p>
                             <ul class="service-features">
                                 <li>Scalable, SEO-optimized, and performance-focused</li>
                                 <li>Integrates with APIs, databases, or 3rd-party tools</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                            </div>
         <!-- Service End -->
 
         
@@ -206,7 +205,7 @@
                                     <a href="#"><i class="fab fa-linkedin-in"></i></a>
                                     <a href="#"><i class="fab fa-github"></i></a>
                                     <a href="#"><i class="fas fa-globe"></i></a>
-                                </div>
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -222,7 +221,7 @@
                                     <a href="#"><i class="fab fa-linkedin-in"></i></a>
                                     <a href="#"><i class="fab fa-github"></i></a>
                                     <a href="#"><i class="fas fa-globe"></i></a>
-                                </div>
+                            </div>
                             </div>
                         </div>
                     </div>

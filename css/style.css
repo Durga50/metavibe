@@ -59,20 +59,81 @@ h4, h5, h6, .h4, .h5, .h6 {
 
 .wow,
 .animated {
-    animation-duration: 2s !important;
+    animation-duration: 1.2s !important;
 }
 
+.wow.bounceInDown {
+    animation-delay: 0.1s !important;
+}
+
+.wow.bounceInLeft {
+    animation-delay: 0.3s !important;
+}
+
+@keyframes bounceInDown {
+    0%, 60%, 75%, 90%, 100% {
+        -webkit-transition-timing-function: cubic-bezier(0.215, .61, .355, 1);
+        transition-timing-function: cubic-bezier(0.215, .61, .355, 1);
+    }
+
+    0% {
+        opacity: 0;
+        -webkit-transform: translate3d(0, -3000px, 0);
+        transform: translate3d(0, -3000px, 0);
+    }
+
+    60% {
+        opacity: 1;
+        -webkit-transform: translate3d(0, 25px, 0);
+        transform: translate3d(0, 25px, 0);
+    }
+
+    75% {
+        -webkit-transform: translate3d(0, -10px, 0);
+        transform: translate3d(0, -10px, 0);
+    }
+
+    90% {
+        -webkit-transform: translate3d(0, 5px, 0);
+        transform: translate3d(0, 5px, 0);
+    }
+
+    100% {
+        -webkit-transform: none;
+        transform: none;
+    }
+}
+
+/* Hero Text Animations */
+.hero-heading {
+    text-shadow: 0 0 10px rgba(96, 165, 250, 0.5), 0 0 20px rgba(96, 165, 250, 0.3);
+    transition: text-shadow 0.5s ease-in-out;
+    animation: textGlow 2s infinite alternate;
+}
+
+@keyframes textGlow {
+    0% {
+        text-shadow: 0 0 10px rgba(96, 165, 250, 0.5), 0 0 20px rgba(96, 165, 250, 0.3);
+    }
+    100% {
+        text-shadow: 0 0 15px rgba(96, 165, 250, 0.7), 0 0 30px rgba(96, 165, 250, 0.5);
+    }
+}
 
 /*** Button Start ***/
 .btn.btn-primary {
     background: rgb(96, 165, 250);
     color: var(--bs-white);
     border: 0;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 10px rgba(96, 165, 250, 0.3);
 }
 
 .btn.btn-primary:hover {
     background: #1a365d !important; /* Navy blue color */
     color: var(--bs-white) !important;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(96, 165, 250, 0.5);
 }
 
 .btn {
@@ -109,6 +170,22 @@ h4, h5, h6, .h4, .h5, .h6 {
     align-items: center;
     justify-content: center;
     font-weight: normal;
+}
+
+.btn.btn-dark {
+    background: var(--bs-dark);
+    color: var(--bs-white);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.btn.btn-dark:hover {
+    background: rgb(96, 165, 250) !important;
+    color: var(--bs-white) !important;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(96, 165, 250, 0.5);
+    border-color: rgb(96, 165, 250);
 }
 /*** Button End ***/
 
@@ -628,6 +705,8 @@ h4, h5, h6, .h4, .h5, .h6 {
 /*** Footer Start ***/
 .footer {
     background: var(--bs-light);
+    padding-top: 3rem; /* Reduced padding from 6rem */
+    padding-bottom: 3rem; /* Reduced padding from 6rem */
 }
 
 .footer .footer-item a.text-body {
@@ -747,104 +826,6 @@ a:hover {
     border-color: #1a365d !important;
 }
 
-/* Enhanced Cursor Sparkle Effect */
-.cursor-sprinkle {
-    pointer-events: none;
-    position: fixed;
-    width: 12px;
-    height: 12px;
-    background: rgb(96, 165, 250);
-    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-    transform: translate(-50%, -50%);
-    z-index: 9999;
-    mix-blend-mode: screen;
-    animation: twinkle 1.5s infinite;
-    filter: drop-shadow(0 0 8px rgb(96, 165, 250));
-}
-
-.particle {
-    pointer-events: none;
-    position: fixed;
-    width: 6px;
-    height: 6px;
-    z-index: 9999;
-    mix-blend-mode: screen;
-    animation: sparkle 1.2s ease-out forwards;
-}
-
-.particle:nth-child(4n) {
-    background: rgb(96, 165, 250);
-    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-    filter: drop-shadow(0 0 4px rgb(96, 165, 250));
-}
-
-.particle:nth-child(4n+1) {
-    background: #60a5fa;
-    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-    filter: drop-shadow(0 0 4px #60a5fa);
-}
-
-.particle:nth-child(4n+2) {
-    background: #93c5fd;
-    clip-path: circle(50% at 50% 50%);
-    filter: drop-shadow(0 0 4px #93c5fd);
-}
-
-.particle:nth-child(4n+3) {
-    background: #bfdbfe;
-    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
-    filter: drop-shadow(0 0 4px #bfdbfe);
-}
-
-.spark {
-    position: absolute;
-    width: 2px;
-    height: 2px;
-    background: #fff;
-    border-radius: 50%;
-    animation: sparkle 0.6s ease-out forwards;
-}
-
-@keyframes sparkle {
-    0% {
-        transform: translate(-50%, -50%) scale(1) rotate(0deg);
-        opacity: 1;
-    }
-    20% {
-        transform: translate(-50%, -50%) scale(1.5) rotate(72deg);
-        opacity: 0.9;
-    }
-    40% {
-        transform: translate(-50%, -50%) scale(1.2) rotate(144deg);
-        opacity: 0.7;
-    }
-    60% {
-        transform: translate(-50%, -50%) scale(0.9) rotate(216deg);
-        opacity: 0.5;
-    }
-    80% {
-        transform: translate(-50%, -50%) scale(0.6) rotate(288deg);
-        opacity: 0.3;
-    }
-    100% {
-        transform: translate(-50%, -50%) scale(0) rotate(360deg);
-        opacity: 0;
-    }
-}
-
-@keyframes twinkle {
-    0%, 100% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
-        filter: drop-shadow(0 0 8px rgb(96, 165, 250));
-    }
-    50% {
-        opacity: 0.8;
-        transform: translate(-50%, -50%) scale(1.3);
-        filter: drop-shadow(0 0 12px rgb(96, 165, 250));
-    }
-}
-
 /* Cursor styles */
 body {
     cursor: auto;
@@ -852,50 +833,6 @@ body {
 
 a, button, input, textarea, select {
     cursor: pointer;
-}
-
-.cursor-core {
-    position: fixed;
-    pointer-events: none;
-    width: 32px;
-    height: 32px;
-    left: 0;
-    top: 0;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(96,165,250,0.5) 0%, rgba(96,165,250,0.2) 60%, transparent 100%);
-    box-shadow: 0 0 32px 16px rgba(96,165,250,0.25);
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: opacity 0.2s, background 0.2s;
-    mix-blend-mode: screen;
-    opacity: 0;
-}
-
-.cursor-particle {
-    position: fixed;
-    pointer-events: none;
-    width: 12px;
-    height: 12px;
-    /* Star shape using clip-path */
-    clip-path: polygon(
-        50% 0%,
-        61% 35%,
-        98% 35%,
-        68% 57%,
-        79% 91%,
-        50% 70%,
-        21% 91%,
-        32% 57%,
-        2% 35%,
-        39% 35%
-    );
-    background: linear-gradient(135deg, #2563eb 0%, #60a5fa 60%, #93c5fd 100%);
-    box-shadow: 0 0 8px 2px #60a5fa66;
-    z-index: 9999;
-    mix-blend-mode: screen;
-    will-change: transform, opacity;
-    transition: transform 0.35s cubic-bezier(.4,2,.6,1), opacity 0.35s;
-    opacity: 0;
 }
 
 .net-bg {
@@ -957,6 +894,50 @@ a, button, input, textarea, select {
     box-shadow: 0 16px 48px 0 rgba(96,165,250,0.25), 0 2px 16px 0 rgba(36,54,93,0.12);
     border-top: 6px solid #2563eb;
     border-left: 6px solid #60a5fa;
+}
+
+/* Magnetic Cursor Effect */
+#cursor-effect-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Allows clicks to pass through */
+    z-index: 99999;
+}
+
+.cursor-dot {
+    position: absolute;
+    width: 8px; /* Size of the main cursor dot */
+    height: 8px;
+    background-color: rgb(96, 165, 250); /* Primary blue */
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s ease-out, height 0.2s ease-out, background-color 0.2s ease-out; /* Smooth transition for interaction */
+    mix-blend-mode: screen;
+}
+
+.cursor-dot.hover {
+    width: 24px; /* Larger size on hover */
+    height: 24px;
+    background-color: rgba(96, 165, 250, 0.7); /* Slightly transparent on hover */
+}
+
+.follower-particle {
+    position: absolute;
+    background: linear-gradient(45deg, #60a5fa, #2563eb, #93c5fd); /* Gradient for particles */
+    border-radius: 50%;
+    opacity: 0; /* Starts hidden */
+    animation: fadeInOut 2s ease-out forwards; /* Particle lifespan animation */
+    mix-blend-mode: screen;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: scale(0); }
+    20% { opacity: 1; transform: scale(1); }
+    80% { opacity: 1; transform: scale(0.8); }
+    100% { opacity: 0; transform: scale(0); }
 }
 
 /* Enhanced Stats Section Styles */
@@ -1519,6 +1500,87 @@ a, button, input, textarea, select {
     animation-duration: 1.2s !important;
     animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1) !important;
     animation-name: heroImageEntrance !important;
+}
+
+/* Gradient Border for Hero Welcome Text */
+#hero-welcome-text {
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(45deg, 
+        #60a5fa,  /* Light blue */
+        #3b82f6,  /* Medium blue */
+        #2563eb,  /* Dark blue */
+        #1d4ed8,  /* Navy blue */
+        #60a5fa   /* Back to light blue for smooth transition */
+    ) border-box, 
+    var(--bs-light) padding-box; /* Gradient as border, solid as inner fill */
+    background-size: 300% 300%; /* For animation */
+    background-position: 0% 50%; /* Initial position */
+    border: 2px solid transparent; /* To show the border-box background */
+    border-radius: 50px; /* Ensure rounded corners for the pill shape */
+    animation: heroWelcomeTextEntrance 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, 
+               gradientBorderAnimation 4s ease infinite; /* Apply both animations */
+    overflow: hidden; /* Ensure content stays within rounded borders */
+}
+
+@keyframes gradientBorderAnimation {
+    0% { 
+        background-position: 0% 50%;
+        filter: brightness(1);
+    }
+    50% { 
+        background-position: 100% 50%;
+        filter: brightness(1.2);
+    }
+    100% { 
+        background-position: 0% 50%;
+        filter: brightness(1);
+    }
+}
+
+@keyframes heroWelcomeTextEntrance {
+    0% {
+        opacity: 0;
+        transform: scale(0.8) translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes bounceInDown {
+    0%, 60%, 75%, 90%, 100% {
+        -webkit-transition-timing-function: cubic-bezier(0.215, .61, .355, 1);
+        transition-timing-function: cubic-bezier(0.215, .61, .355, 1);
+    }
+
+    0% {
+        opacity: 0;
+        -webkit-transform: translate3d(0, -3000px, 0);
+        transform: translate3d(0, -3000px, 0);
+    }
+
+    60% {
+        opacity: 1;
+        -webkit-transform: translate3d(0, 25px, 0);
+        transform: translate3d(0, 25px, 0);
+    }
+
+    75% {
+        -webkit-transform: translate3d(0, -10px, 0);
+        transform: translate3d(0, -10px, 0);
+    }
+
+    90% {
+        -webkit-transform: translate3d(0, 5px, 0);
+        transform: translate3d(0, 5px, 0);
+    }
+
+    100% {
+        -webkit-transform: none;
+        transform: none;
+    }
 }
 
 
