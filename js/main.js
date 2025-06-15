@@ -203,11 +203,32 @@
     let cursorX = 0;
     let cursorY = 0;
     let lastParticleTime = 0; // To control particle spawning rate
-    const particleInterval = 50; // milliseconds between particles
+    const particleInterval = 30; // milliseconds between particles for stardust
 
     document.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
+
+        // Create aura ripple on mouse movement
+        const aura = document.createElement('div');
+        aura.className = 'aura-ripple';
+        cursorContainer.appendChild(aura);
+        aura.style.left = mouseX + 'px';
+        aura.style.top = mouseY + 'px';
+        // Remove aura after animation
+        aura.addEventListener('animationend', () => aura.remove());
+    });
+
+    document.addEventListener('mousedown', (e) => {
+        const clickRippleElement = document.createElement('div');
+        clickRippleElement.className = 'aura-ripple'; // Using aura-ripple for styling consistency
+        clickRippleElement.style.background = 'transparent'; // Make it transparent for border effect
+        clickRippleElement.style.border = '2px solid rgba(96, 165, 250, 0.7)'; // Border for the ripple
+        cursorContainer.appendChild(clickRippleElement);
+        clickRippleElement.style.left = e.clientX + 'px';
+        clickRippleElement.style.top = e.clientY + 'px';
+        clickRippleElement.style.animation = 'clickRipple 0.8s ease-out forwards';
+        clickRippleElement.addEventListener('animationend', () => clickRippleElement.remove());
     });
 
     function animateCursor() {
@@ -217,16 +238,16 @@
         cursorDot.style.left = cursorX + 'px';
         cursorDot.style.top = cursorY + 'px';
 
-        // Create follower particles at a controlled rate
+        // Create stardust particles at a controlled rate
         const currentTime = Date.now();
         if (currentTime - lastParticleTime > particleInterval) {
             const particle = document.createElement('div');
-            particle.className = 'follower-particle';
+            particle.className = 'stardust-particle'; // Changed class name
             cursorContainer.appendChild(particle);
 
-            const size = Math.random() * 8 + 4; // Random size between 4px and 12px
+            const size = Math.random() * 6 + 2; // Smaller random size between 2px and 8px
             const angle = Math.random() * Math.PI * 2; // Random direction
-            const distance = Math.random() * 20 + 5; // Random distance between 5px and 25px
+            const distance = Math.random() * 25 + 5; // Random distance between 5px and 30px
 
             particle.style.width = size + 'px';
             particle.style.height = size + 'px';
@@ -235,21 +256,21 @@
             particle.style.top = cursorY + Math.sin(angle) * 5 + 'px'; // Small offset
             
             // Animate particle movement and fade
-            const animationDuration = parseFloat(getComputedStyle(particle).animationDuration) * 1000;
+            // Reusing fadeInOut animation, but it can be more specific for stardust if needed
+            const animationDuration = Math.random() * 1.5 + 1; // Random duration between 1s and 2.5s
+            particle.style.animationDuration = animationDuration + 's';
+            particle.style.animationName = 'fadeInOut'; // Ensure fadeInOut is used
 
             particle.animate([
-                { transform: `translate(-50%, -50%) translate(0, 0)`, opacity: 1 },
-                { transform: `translate(-50%, -50%) translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`, opacity: 0 }
+                { transform: `translate(-50%, -50%) translate(0, 0)`, opacity: 0, filter: 'blur(1px)' },
+                { transform: `translate(-50%, -50%) translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`, opacity: 0.8, filter: 'blur(0px)' },
+                { transform: `translate(-50%, -50%) translate(${Math.cos(angle) * distance * 1.5}px, ${Math.sin(angle) * distance * 1.5}px)`, opacity: 0, filter: 'blur(2px)' }
             ], {
-                duration: animationDuration,
+                duration: animationDuration * 1000, // Convert to milliseconds
                 easing: 'ease-out',
                 fill: 'forwards'
             }).onfinish = () => particle.remove(); // Remove particle after animation
 
-            // Limit the number of particles to prevent performance issues (optional, as they self-remove)
-            // if (cursorContainer.children.length > 50) { 
-            //     cursorContainer.removeChild(cursorContainer.children[0]);
-            // }
             lastParticleTime = currentTime; // Update last particle creation time
         }
 

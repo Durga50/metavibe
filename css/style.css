@@ -909,28 +909,58 @@ a, button, input, textarea, select {
 
 .cursor-dot {
     position: absolute;
-    width: 8px; /* Size of the main cursor dot */
-    height: 8px;
+    width: 10px; /* Slightly larger main cursor dot */
+    height: 10px;
     background-color: rgb(96, 165, 250); /* Primary blue */
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    transition: width 0.2s ease-out, height 0.2s ease-out, background-color 0.2s ease-out; /* Smooth transition for interaction */
+    transition: width 0.2s ease-out, height 0.2s ease-out, background-color 0.2s ease-out, box-shadow 0.2s ease-out; /* Smooth transition for interaction */
     mix-blend-mode: screen;
+    box-shadow: 0 0 15px rgba(96, 165, 250, 0.7), 0 0 30px rgba(96, 165, 250, 0.4); /* Subtle glow */
+    animation: cursorPulse 2s infinite alternate; /* Pulsating effect when idle */
 }
 
 .cursor-dot.hover {
-    width: 24px; /* Larger size on hover */
-    height: 24px;
-    background-color: rgba(96, 165, 250, 0.7); /* Slightly transparent on hover */
+    width: 30px; /* Larger size on hover */
+    height: 30px;
+    background-color: rgba(96, 165, 250, 0.8); /* Slightly more opaque on hover */
+    box-shadow: 0 0 25px rgba(96, 165, 250, 0.9), 0 0 50px rgba(96, 165, 250, 0.6); /* Stronger glow on hover */
 }
 
-.follower-particle {
+.stardust-particle {
     position: absolute;
-    background: linear-gradient(45deg, #60a5fa, #2563eb, #93c5fd); /* Gradient for particles */
+    background: radial-gradient(circle, rgba(96, 165, 250, 0.8) 0%, rgba(37, 99, 235, 0.5) 50%, transparent 100%); /* Softer gradient for particles */
     border-radius: 50%;
-    opacity: 0; /* Starts hidden */
-    animation: fadeInOut 2s ease-out forwards; /* Particle lifespan animation */
+    opacity: 0;
+    filter: blur(1px); /* Soften the edges */
     mix-blend-mode: screen;
+}
+
+.aura-ripple {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(96, 165, 250, 0.3); /* Faint blue aura */
+    transform: translate(-50%, -50%);
+    animation: auraExpand 0.8s ease-out forwards; /* Expansion and fade animation */
+    mix-blend-mode: screen;
+    pointer-events: none;
+}
+
+@keyframes cursorPulse {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1.05); opacity: 0.8; }
+}
+
+@keyframes auraExpand {
+    0% { transform: translate(-50%, -50%) scale(0); opacity: 0.5; }
+    100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+}
+
+@keyframes clickRipple {
+    0% { transform: translate(-50%, -50%) scale(0); opacity: 0.8; border-width: 5px; }
+    100% { transform: translate(-50%, -50%) scale(2); opacity: 0; border-width: 0; }
 }
 
 @keyframes fadeInOut {
