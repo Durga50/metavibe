@@ -907,49 +907,105 @@ a, button, input, textarea, select {
     z-index: 99999;
 }
 
+.cursor-glow {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(
+        circle at center,
+        rgba(96, 165, 250, 0.4) 0%,
+        rgba(37, 99, 235, 0.3) 30%,
+        rgba(29, 78, 216, 0.2) 50%,
+        transparent 70%
+    );
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    filter: blur(8px);
+    mix-blend-mode: screen;
+    opacity: 0;
+    transition: opacity 0.2s ease-out;
+    z-index: 99998;
+}
+
+.quantum-scatter-particle {
+    position: absolute;
+    background: radial-gradient(
+        circle at center,
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(96, 165, 250, 0.8) 50%,
+        rgba(37, 99, 235, 0.6) 100%
+    );
+    border-radius: 50%;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    filter: blur(1px);
+    box-shadow: 0 0 10px rgba(96, 165, 250, 0.5);
+    z-index: 99997;
+}
+
+@keyframes glowPulse {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 0.6;
+    }
+}
+
+/* Update existing cursor-dot to work with new glow effect */
 .cursor-dot {
     position: absolute;
-    width: 12px; /* Slightly larger for the nebula core */
+    width: 12px;
     height: 12px;
     background: radial-gradient(circle at center, 
-        rgba(96, 165, 250, 0.9) 0%, /* Core bright */
-        rgba(37, 99, 235, 0.7) 50%, /* Mid blue */
-        transparent 100% /* Fade out */
-    ); /* Iridescent nebula core */
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(96, 165, 250, 0.8) 50%,
+        rgba(37, 99, 235, 0.6) 100%
+    );
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    transition: width 0.3s ease-out, height 0.3s ease-out, box-shadow 0.3s ease-out; /* Smoother transitions */
+    transition: width 0.3s ease-out, height 0.3s ease-out;
     mix-blend-mode: screen;
-    box-shadow: 0 0 20px rgba(96, 165, 250, 0.8), 0 0 40px rgba(96, 165, 250, 0.5); /* Stronger glow */
-    animation: nebulaPulse 2.5s infinite alternate ease-in-out; /* Slower, more ethereal pulse */
-    filter: hue-rotate(0deg); /* For color shifting */
+    box-shadow: 0 0 20px rgba(96, 165, 250, 0.8);
+    z-index: 99999;
 }
 
 .cursor-dot.hover {
-    width: 36px; /* Even larger size on hover for impact */
+    width: 36px;
     height: 36px;
     background: radial-gradient(circle at center, 
-        rgba(96, 165, 250, 1) 0%, 
-        rgba(37, 99, 235, 0.9) 50%, 
-        transparent 100%
-    ); /* More intense on hover */
-    box-shadow: 0 0 35px rgba(96, 165, 250, 1), 0 0 70px rgba(96, 165, 250, 0.8); /* Stronger glow on hover */
-    animation: none; /* Stop pulsing on hover */
-    filter: hue-rotate(20deg); /* Subtle color shift on hover */
+        rgba(255, 255, 255, 1) 0%,
+        rgba(96, 165, 250, 0.9) 50%,
+        rgba(37, 99, 235, 0.8) 100%
+    );
+    box-shadow: 0 0 35px rgba(96, 165, 250, 1);
 }
 
-.cosmic-dust-particle {
+.quantum-dust-particle {
     position: absolute;
     background: radial-gradient(circle, 
         rgba(96, 165, 250, 0.9) 0%, 
         rgba(37, 99, 235, 0.6) 50%, 
         transparent 100%
-    ); /* Soft gradient for cosmic dust */
+    ); /* Soft gradient for quantum dust */
     border-radius: 50%; /* Default to round */
     opacity: 0;
     filter: blur(0.5px); /* Very subtle blur */
     mix-blend-mode: screen;
-    animation: cosmicDustAnimation 2s ease-out forwards; /* New animation for dust */
+    animation: quantumDustAnimation 2s ease-out forwards; /* New animation for dust */
+}
+
+.quantum-scatter-particle {
+    position: absolute;
+    background: rgb(255, 255, 255); /* Bright white for sparkle */
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); /* Star shape */
+    opacity: 0;
+    mix-blend-mode: screen;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7)); /* Bright glow */
+    animation: quantumScatter 0.8s ease-out forwards; /* Explosive scatter animation */
 }
 
 .aura-ripple {
@@ -980,11 +1036,16 @@ a, button, input, textarea, select {
     100% { transform: translate(-50%, -50%) scale(1.05); box-shadow: 0 0 25px rgba(96, 165, 250, 1), 0 0 50px rgba(96, 165, 250, 0.7); filter: hue-rotate(10deg); }
 }
 
-@keyframes cosmicDustAnimation {
+@keyframes quantumDustAnimation {
     0% { opacity: 0; transform: translate(-50%, -50%) scale(0) rotate(0deg); }
     10% { opacity: 0.8; transform: translate(-50%, -50%) scale(1) rotate(30deg); }
     50% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.7) rotate(180deg); }
     100% { opacity: 0; transform: translate(-50%, -50%) scale(0) rotate(360deg); }
+}
+
+@keyframes quantumScatter {
+    0% { opacity: 0.8; transform: translate(-50%, -50%) scale(0.5) rotate(0deg); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(2) rotate(720deg); }
 }
 
 @keyframes auraExpand {
@@ -1644,6 +1705,39 @@ a, button, input, textarea, select {
     100% {
         -webkit-transform: none;
         transform: none;
+    }
+}
+
+/* Cursor Glow Effect */
+.cursor-glow {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(
+        circle at center,
+        rgba(96, 165, 250, 0.4) 0%,
+        rgba(37, 99, 235, 0.3) 30%,
+        rgba(29, 78, 216, 0.2) 50%,
+        transparent 70%
+    );
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    filter: blur(8px);
+    mix-blend-mode: screen;
+    opacity: 0;
+    transition: opacity 0.2s ease-out;
+    z-index: 99998;
+}
+
+@keyframes glowPulse {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 0.6;
     }
 }
 
