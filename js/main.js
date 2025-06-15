@@ -177,7 +177,7 @@
 
     function colorText() {
         const coloredText = staticPrefix +
-                            `<span class="text-primary">` +
+                            `<span>` +
                             textToType +
                             `</span>`;
         welcomeTextElement.innerHTML = coloredText;
