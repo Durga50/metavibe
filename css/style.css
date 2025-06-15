@@ -5,7 +5,9 @@
     --bs-white: #ffffff;
     --bs-body-bg: #1a1a1a;
     --bs-body-color: #ffffff;
+    --card-inset-border-size: 4px; /* Define border thickness for cards */
 }
+
 
 body {
     background-color: var(--bs-body-bg);
@@ -29,13 +31,6 @@ body {
  }
 /*** Spinner End ***/
 
-
-.back-to-top {
-    position: fixed;
-    right: 30px;
-    bottom: 30px;
-    z-index: 99;
-}
 
 h1, h2, h3, .h1, .h2, .h3 {
     font-weight: 400 !important;
@@ -121,6 +116,50 @@ h4, h5, h6, .h4, .h5, .h6 {
 }
 
 /*** Button Start ***/
+.btn {
+    position: relative; /* Needed for absolute positioning of pseudo-element */
+    overflow: hidden; /* Hides parts of the gradient outside the button */
+    z-index: 1; /* Ensures button content is above the pseudo-element */
+    font-weight: 600;
+    transition: .5s;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: -200%;
+    left: -200%;
+    width: 400%;
+    height: 400%;
+    background: conic-gradient(
+        from 0deg,
+        transparent 0%,
+        rgba(96, 165, 250, 0.5) 10%, /* Light blue */
+        rgba(37, 99, 235, 0.7) 20%,  /* Medium blue */
+        rgba(128, 0, 128, 0.5) 30%,  /* Purple */
+        rgba(75, 0, 130, 0.7) 40%,   /* Indigo */
+        rgba(0, 255, 255, 0.5) 50%,  /* Cyan */
+        transparent 60%
+    );
+    animation: sparkle-border-dance 6s linear infinite;
+    z-index: -1; /* Puts the border behind the button content */
+    border-radius: inherit; /* Inherit border-radius from button */
+    opacity: 0.7; /* Initial opacity */
+    filter: blur(10px); /* Soft blur for a glow effect */
+}
+
+/* Keyframes for the moving border animation (retained for buttons) */
+@keyframes sparkle-border-dance {
+    0% {
+        transform: rotate(0deg);
+        box-shadow: 0 0 15px rgba(96, 165, 250, 0.6);
+    }
+    100% {
+        transform: rotate(360deg);
+        box-shadow: 0 0 25px rgba(96, 165, 250, 0.9), 0 0 40px rgba(128, 0, 128, 0.5);
+    }
+}
+
 .btn.btn-primary {
     background: rgb(96, 165, 250);
     color: var(--bs-white);
@@ -134,11 +173,6 @@ h4, h5, h6, .h4, .h5, .h6 {
     color: var(--bs-white) !important;
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(96, 165, 250, 0.5);
-}
-
-.btn {
-    font-weight: 600;
-    transition: .5s;
 }
 
 .btn-square {
@@ -727,8 +761,82 @@ h4, h5, h6, .h4, .h5, .h6 {
 
 /* Additional dark theme adjustments */
 .card {
-    background: var(--bs-light);
-    border-color: rgba(255, 255, 255, .1);
+    background: var(--bs-light); /* Existing theme color */
+    border-color: rgba(255, 255, 255, .1); /* Existing theme color */
+    --border-radius: 1rem; /* New custom prop from user's input */
+    position: relative; /* New: for pseudo-elements */
+    display: flex; /* New: for content centering */
+    align-items: center; /* New: for content centering */
+    justify-content: center; /* New: for content centering */
+    flex-direction: column; /* New: for content stacking */
+    width: 300px; /* New: fixed width for consistency with provided HTML */
+    height: 400px; /* New: fixed height for consistency with provided HTML */
+    border-radius: var(--border-radius); /* New: apply custom radius */
+    color: var(--bs-white); /* New: ensure text visibility, adapted from #fff */
+    padding: 30px; /* New: apply padding */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* New: apply shadow */
+    isolation: isolate; /* New: for z-index stacking context */
+    overflow: hidden; /* New: clips the animated border */
+}
+
+.card::before,
+.card::after {
+    content: '';
+    position: absolute;
+}
+
+.card::before {
+    width: 200%;
+    height: 200%;
+    background-image: conic-gradient(var(--color) 0deg,
+            transparent 60deg, transparent 180deg, var(--color) 180deg,
+            transparent 240deg);
+    inset: -50%;
+    z-index: -2; /* Behind the inner mask */
+    animation: borderanimation 4s linear infinite; /* Use new borderanimation */
+}
+
+.card:hover::before {
+    animation-play-state: paused;
+}
+
+.card::after {
+    background: var(--bs-light); /* Inner fill of the card, using theme variable */
+    inset: var(--card-inset-border-size); /* Creates the border cutout */
+    border-radius: calc(1rem - var(--card-inset-border-size));
+    z-index: -1; /* Above the border, below content */
+    transition: all 0.3s linear;
+}
+
+.card:hover::after {
+    background: var(--bs-light); /* Keep inner background consistent on hover */
+}
+
+/* Card content styles from user's input */
+.card i {
+    font-size: 3.5rem;
+    color: transparent;
+    -webkit-text-stroke: thin var(--color);
+}
+
+.card:hover i {
+    color: var(--color);
+    -webkit-text-stroke-width: 0;
+}
+
+.card .title {
+    text-align: center;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    margin-block: 2.5rem 1.5rem;
+    color: var(--color);
+}
+
+.card .description {
+    line-height: 1.5rem;
+    text-align: center;
+    opacity: 0.75;
+    color: var(--bs-white); /* Ensure description text is visible */
 }
 
 .modal-content {
@@ -835,6 +943,29 @@ a, button, input, textarea, select {
     cursor: pointer;
 }
 
+/* Remove all cursor effect related styles */
+#cursor-effect-container,
+.cursor-glow,
+.cursor-dot,
+.quantum-dust-particle,
+.quantum-scatter-particle,
+.aura-ripple,
+.warp-jump-ripple {
+    display: none !important;
+}
+
+/* Remove cursor animations */
+@keyframes glowPulse {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+    50% { transform: translate(-50%, -50%) scale(1.05); opacity: 0.6; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+}
+
+/* Remove cursor glow effect */
+.cursor-glow {
+    display: none !important;
+}
+
 .net-bg {
     position: fixed;
     left: 0; top: 0; width: 100vw; height: 100vh;
@@ -894,141 +1025,6 @@ a, button, input, textarea, select {
     box-shadow: 0 16px 48px 0 rgba(96,165,250,0.25), 0 2px 16px 0 rgba(36,54,93,0.12);
     border-top: 6px solid #2563eb;
     border-left: 6px solid #60a5fa;
-}
-
-/* Magnetic Cursor Effect */
-#cursor-effect-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none; /* Allows clicks to pass through */
-    z-index: 99999;
-}
-
-.cursor-glow {
-    position: absolute;
-    width: 80px;
-    height: 80px;
-    background: radial-gradient(
-        circle at center,
-        rgba(96, 165, 250, 0.4) 0%,
-        rgba(37, 99, 235, 0.3) 30%,
-        rgba(29, 78, 216, 0.2) 50%,
-        transparent 70%
-    );
-    border-radius: 50%;
-    pointer-events: none;
-    transform: translate(-50%, -50%);
-    filter: blur(8px);
-    mix-blend-mode: screen;
-    opacity: 0;
-    transition: opacity 0.2s ease-out;
-    z-index: 99998;
-}
-
-.quantum-scatter-particle {
-    position: absolute;
-    background: radial-gradient(
-        circle at center,
-        rgba(255, 255, 255, 0.9) 0%,
-        rgba(96, 165, 250, 0.8) 50%,
-        rgba(37, 99, 235, 0.6) 100%
-    );
-    border-radius: 50%;
-    pointer-events: none;
-    mix-blend-mode: screen;
-    filter: blur(1px);
-    box-shadow: 0 0 10px rgba(96, 165, 250, 0.5);
-    z-index: 99997;
-}
-
-@keyframes glowPulse {
-    0% {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 0.8;
-    }
-    100% {
-        transform: translate(-50%, -50%) scale(1.1);
-        opacity: 0.6;
-    }
-}
-
-/* Update existing cursor-dot to work with new glow effect */
-.cursor-dot {
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    background: radial-gradient(circle at center, 
-        rgba(255, 255, 255, 0.9) 0%,
-        rgba(96, 165, 250, 0.8) 50%,
-        rgba(37, 99, 235, 0.6) 100%
-    );
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: width 0.3s ease-out, height 0.3s ease-out;
-    mix-blend-mode: screen;
-    box-shadow: 0 0 20px rgba(96, 165, 250, 0.8);
-    z-index: 99999;
-}
-
-.cursor-dot.hover {
-    width: 36px;
-    height: 36px;
-    background: radial-gradient(circle at center, 
-        rgba(255, 255, 255, 1) 0%,
-        rgba(96, 165, 250, 0.9) 50%,
-        rgba(37, 99, 235, 0.8) 100%
-    );
-    box-shadow: 0 0 35px rgba(96, 165, 250, 1);
-}
-
-.quantum-dust-particle {
-    position: absolute;
-    background: radial-gradient(circle, 
-        rgba(96, 165, 250, 0.9) 0%, 
-        rgba(37, 99, 235, 0.6) 50%, 
-        transparent 100%
-    ); /* Soft gradient for quantum dust */
-    border-radius: 50%; /* Default to round */
-    opacity: 0;
-    filter: blur(0.5px); /* Very subtle blur */
-    mix-blend-mode: screen;
-    animation: quantumDustAnimation 2s ease-out forwards; /* New animation for dust */
-}
-
-.quantum-scatter-particle {
-    position: absolute;
-    background: rgb(255, 255, 255); /* Bright white for sparkle */
-    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); /* Star shape */
-    opacity: 0;
-    mix-blend-mode: screen;
-    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7)); /* Bright glow */
-    animation: quantumScatter 0.8s ease-out forwards; /* Explosive scatter animation */
-}
-
-.aura-ripple {
-    position: absolute;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(96, 165, 250, 0.3); /* Faint blue aura */
-    transform: translate(-50%, -50%);
-    animation: auraExpand 0.8s ease-out forwards; /* Expansion and fade animation */
-    mix-blend-mode: screen;
-    pointer-events: none;
-}
-
-.warp-jump-ripple {
-    position: absolute;
-    border-radius: 50%;
-    background: transparent;
-    border: 3px solid rgba(96, 165, 250, 0.8); /* Stronger border for warp jump */
-    transform: translate(-50%, -50%);
-    animation: warpJump 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; /* Faster, more impactful animation */
-    mix-blend-mode: screen;
-    pointer-events: none;
 }
 
 @keyframes nebulaPulse {
@@ -1296,6 +1292,14 @@ a, button, input, textarea, select {
     animation-delay: 0.7s !important;
 }
 
+.wow.bounceInUp[data-wow-delay="0.9s"] {
+    animation-delay: 0.9s !important;
+}
+
+.wow.bounceInUp[data-wow-delay="1.1s"] {
+    animation-delay: 1.1s !important;
+}
+
 /* Enhanced Service Section Styles */
 .service-card {
     background: rgba(96, 165, 250, 0.1);
@@ -1541,41 +1545,84 @@ a, button, input, textarea, select {
     animation-delay: 1.1s !important;
 }
 
-/* Hero Image Animations */
+/* Hero Image Animations (Overhauled) */
 .img-hero {
     position: relative;
-    overflow: hidden;
-    border-radius: 20px; /* Consistent rounded corners */
+    overflow: visible; /* Changed from hidden to visible to show the border effect */
+    border-radius: 20px;
     box-shadow: 0 10px 30px rgba(96, 165, 250, 0.2);
     transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
     transform-style: preserve-3d;
     perspective: 1000px;
     display: block;
+    margin: 0 auto;
+    max-width: 500px;
+    height: auto;
+}
+
+.img-hero:hover {
+    transform: scale(1.03) rotateZ(1deg); /* Subtle zoom and rotation on hover */
+    box-shadow: 0 15px 45px rgba(96, 165, 250, 0.4); /* More pronounced shadow */
 }
 
 .img-hero::before {
     content: '';
     position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(45deg, 
-        rgba(96, 165, 250, 0.1), 
-        rgba(37, 99, 235, 0.1));
-    opacity: 0;
-    transition: all 0.6s ease;
-    z-index: 1;
+    top: -4px; /* Half of desired border thickness (8px) */
+    left: -4px; /* Half of desired border thickness (8px) */
+    width: calc(100% + 8px); /* Image width + 2*border thickness */
+    height: calc(100% + 8px); /* Image height + 2*border thickness */
+    background: conic-gradient(
+        from 0deg,
+        rgba(96, 165, 250, 1) 0%,
+        rgba(37, 99, 235, 1) 25%,
+        rgba(128, 0, 128, 1) 50%,
+        rgba(75, 0, 130, 1) 75%,
+        rgba(0, 255, 255, 1) 100%
+    ); /* Multi-colored gradient based on theme primary colors */
+    animation: borderanimation 4s linear infinite; /* Apply the new border animation */
+    z-index: -1; /* Place behind the image */
+    border-radius: 24px; /* Existing image border-radius (20px) + half border thickness (4px) */
+    opacity: 1; /* Fully visible */
+    filter: blur(0px); /* No blur for a sharp border */
+    background-size: 200% 200%; /* Needed for the gradient movement */
 }
 
 .img-hero::after {
     content: '';
     position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: url('data:image/svg+xml;utf8,<svg width="100%" height="100%" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke="rgba(96,165,250,0.08)" stroke-width="1"><polyline points="0,100 100,200 200,100 300,200 400,100 500,200 600,100 700,200 800,100"/><polyline points="0,300 100,400 200,300 300,400 400,300 500,400 600,300 700,400 800,300"/><polyline points="0,500 100,600 200,500 300,600 400,500 500,600 600,500 700,600 800,500"/><polyline points="0,0 100,100 200,0 300,100 400,0 500,100 600,0 700,100 800,0"/><polyline points="0,200 100,300 200,200 300,300 400,200 500,300 600,200 700,300 800,200"/></g></svg>');
-    background-size: cover;
-    background-position: center;
-    opacity: 0;
-    transition: opacity 0.6s ease, transform 0.6s ease;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border: 2px solid transparent;
+    border-radius: 22px; /* Slightly larger than the image border-radius */
+    background: linear-gradient(
+        45deg,
+        rgba(96, 165, 250, 0.8),
+        rgba(37, 99, 235, 0.8),
+        rgba(128, 0, 128, 0.8),
+        rgba(0, 255, 255, 0.8)
+    );
+    background-size: 400% 400%;
+    animation: borderGlow 3s linear infinite;
     z-index: 1;
-    mix-blend-mode: screen;
+    pointer-events: none;
+}
+
+@keyframes borderGlow {
+    0% {
+        background-position: 0% 50%;
+        opacity: 1;
+    }
+    50% {
+        background-position: 100% 50%;
+        opacity: 0.8;
+    }
+    100% {
+        background-position: 0% 50%;
+        opacity: 1;
+    }
 }
 
 .img-hero img {
@@ -1585,25 +1632,8 @@ a, button, input, textarea, select {
     border-radius: 20px;
     transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
     transform-style: preserve-3d;
-    z-index: 0;
-}
-
-.img-hero:hover {
-    transform: translateY(-5px) rotateX(2deg) rotateY(2deg);
-    box-shadow: 0 15px 40px rgba(96, 165, 250, 0.3);
-}
-
-.img-hero:hover::before {
-    opacity: 1;
-}
-
-.img-hero:hover::after {
-    opacity: 0.8;
-    transform: scale(1.05);
-}
-
-.img-hero:hover img {
-    transform: scale(1.03) translateZ(10px);
+    z-index: 2;
+    position: relative;
 }
 
 @keyframes heroImageEntrance {
@@ -1627,6 +1657,17 @@ a, button, input, textarea, select {
     animation-name: heroImageEntrance !important;
 }
 
+@keyframes sprinkler-animation {
+    0% {
+        transform: translate(-50%, -50%) scale(0.1); 
+        opacity: 1; 
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(5); /* Much larger final scale for testing */
+        opacity: 0;
+    }
+}
+
 /* Gradient Border for Hero Welcome Text */
 #hero-welcome-text {
     position: relative;
@@ -1644,8 +1685,35 @@ a, button, input, textarea, select {
     border: 2px solid transparent; /* To show the border-box background */
     border-radius: 50px; /* Ensure rounded corners for the pill shape */
     animation: heroWelcomeTextEntrance 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, 
-               gradientBorderAnimation 4s ease infinite; /* Apply both animations */
+               gradientBorderAnimation 4s ease infinite,
+               textGlow 2s infinite alternate,
+               floatPulse 3s ease-in-out infinite,
+               subtleScalePulse 4s ease-in-out infinite; /* Apply all animations */
     overflow: hidden; /* Ensure content stays within rounded borders */
+}
+
+#hero-welcome-text::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 300%;
+    height: 300%;
+    background: conic-gradient(
+        from 0deg,
+        transparent 0%,
+        rgba(96, 165, 250, 0.7) 10%, /* Light blue */
+        rgba(37, 99, 235, 0.9) 20%,  /* Medium blue */
+        rgba(128, 0, 128, 0.7) 30%,  /* Purple */
+        rgba(75, 0, 130, 0.9) 40%,   /* Indigo */
+        rgba(0, 255, 255, 0.7) 50%,  /* Cyan */
+        transparent 60%
+    );
+    animation: sparkle-border-dance 6s linear infinite; /* Reuse the animation */
+    z-index: -1; /* Place behind the text */
+    border-radius: inherit; /* Inherit the 50px border-radius from the parent */
+    opacity: 0.8; /* Stronger initial opacity */
+    filter: blur(15px); /* More blur for a prominent glow */
 }
 
 @keyframes gradientBorderAnimation {
@@ -1674,71 +1742,45 @@ a, button, input, textarea, select {
     }
 }
 
-@keyframes bounceInDown {
-    0%, 60%, 75%, 90%, 100% {
-        -webkit-transition-timing-function: cubic-bezier(0.215, .61, .355, 1);
-        transition-timing-function: cubic-bezier(0.215, .61, .355, 1);
-    }
+@keyframes floatPulse {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+    100% { transform: translateY(0px); }
+}
 
-    0% {
-        opacity: 0;
-        -webkit-transform: translate3d(0, -3000px, 0);
-        transform: translate3d(0, -3000px, 0);
-    }
-
-    60% {
-        opacity: 1;
-        -webkit-transform: translate3d(0, 25px, 0);
-        transform: translate3d(0, 25px, 0);
-    }
-
-    75% {
-        -webkit-transform: translate3d(0, -10px, 0);
-        transform: translate3d(0, -10px, 0);
-    }
-
-    90% {
-        -webkit-transform: translate3d(0, 5px, 0);
-        transform: translate3d(0, 5px, 0);
-    }
-
-    100% {
-        -webkit-transform: none;
-        transform: none;
-    }
+@keyframes subtleScalePulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.005); }
+    100% { transform: scale(1); }
 }
 
 /* Cursor Glow Effect */
 .cursor-glow {
-    position: absolute;
-    width: 80px;
-    height: 80px;
-    background: radial-gradient(
-        circle at center,
-        rgba(96, 165, 250, 0.4) 0%,
-        rgba(37, 99, 235, 0.3) 30%,
-        rgba(29, 78, 216, 0.2) 50%,
-        transparent 70%
-    );
-    border-radius: 50%;
-    pointer-events: none;
-    transform: translate(-50%, -50%);
-    filter: blur(8px);
-    mix-blend-mode: screen;
-    opacity: 0;
-    transition: opacity 0.2s ease-out;
-    z-index: 99998;
+    display: none !important;
 }
 
-@keyframes glowPulse {
+@keyframes sparkle-border-dance {
     0% {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 0.8;
+        transform: rotate(0deg);
+        box-shadow: none; /* Remove box-shadow to eliminate glow */
     }
     100% {
-        transform: translate(-50%, -50%) scale(1.1);
-        opacity: 0.6;
+        transform: rotate(360deg);
+        box-shadow: none; /* Remove box-shadow to eliminate glow */
     }
+}
+
+@keyframes borderanimation {
+    to {
+        transform: rotate(-360deg);
+    }
+}
+
+.back-to-top {
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    z-index: 99999; /* Ensure it's on top and correctly positioned */
 }
 
 

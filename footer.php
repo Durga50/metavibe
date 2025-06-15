@@ -1,5 +1,5 @@
         <!-- Footer Start -->
-        <div class="container-fluid footer py-6 my-6 mb-0 bg-dark wow bounceInUp" data-wow-delay="0.1s">
+        <div class="container-fluid footer mb-0 bg-dark wow bounceInUp" data-wow-delay="0.1s">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-3 col-md-6">
@@ -75,11 +75,9 @@
         </div>
         <!-- Copyright End -->
 
-
         <!-- Back to Top -->
         <a href="#" class="btn btn-md-square btn-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>   
 
-        
         <!-- JavaScript Libraries -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>

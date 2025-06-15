@@ -194,29 +194,15 @@
     cursorContainer.id = 'cursor-effect-container';
     document.body.appendChild(cursorContainer);
 
-    const cursorDot = document.createElement('div');
-    cursorDot.className = 'cursor-dot';
-    cursorContainer.appendChild(cursorDot);
-
-    // Add cursor glow elements
     const cursorGlow = document.createElement('div');
     cursorGlow.className = 'cursor-glow';
     cursorContainer.appendChild(cursorGlow);
 
-    const cursorGlowTrail = document.createElement('div');
-    cursorGlowTrail.className = 'cursor-glow-trail';
-    cursorContainer.appendChild(cursorGlowTrail);
-
     let mouseX = 0;
     let mouseY = 0;
-    let cursorX = 0;
-    let cursorY = 0;
-    let lastParticleTime = 0; 
-    let lastScatterTime = 0;
-    const particleInterval = 20; 
-    const scatterInterval = 50; // Reduced interval for more frequent bursts
-    let isHoveringClickable = false;
-    let isMoving = false;
+    let cursorX = 0; // Tracks the interpolated position of the cursor glow
+    let cursorY = 0; // Tracks the interpolated position of the cursor glow
+    let isMoving = false; // Flag to check if the mouse is currently moving
     let lastMouseX = 0;
     let lastMouseY = 0;
 
@@ -225,91 +211,56 @@
         mouseY = e.clientY;
 
         // Check if cursor is moving
-        isMoving = Math.abs(mouseX - lastMouseX) > 1 || Math.abs(mouseY - lastMouseY) > 1;
+        isMoving = Math.abs(mouseX - lastMouseX) > 1 || Math.abs(mouseY - lastMouseY) > 1; // Threshold for movement
         lastMouseX = mouseX;
         lastMouseY = mouseY;
-
-        // Show/hide glow based on movement
-        cursorGlow.style.opacity = isMoving ? '1' : '0';
-
-        // Create aura ripple on mouse movement (less frequent)
-        if (Date.now() % 100 < 20) { 
-            const aura = document.createElement('div');
-            aura.className = 'aura-ripple';
-            cursorContainer.appendChild(aura);
-            aura.style.left = mouseX + 'px';
-            aura.style.top = mouseY + 'px';
-            aura.addEventListener('animationend', () => aura.remove());
-        }
-
-        // Continuous Quantum Scatter Burst on mousemove
-        const currentTime = Date.now();
-        if (currentTime - lastScatterTime > scatterInterval && isMoving) {
-            for (let i = 0; i < 12; i++) { // Increased number of particles
-                const scatterParticle = document.createElement('div');
-                scatterParticle.className = 'quantum-scatter-particle';
-                cursorContainer.appendChild(scatterParticle);
-    
-                const size = Math.random() * 6 + 3; // Slightly smaller particles
-                const angle = Math.random() * Math.PI * 2;
-                const distance = Math.random() * 60 + 30; // Increased scatter distance
-    
-                scatterParticle.style.width = size + 'px';
-                scatterParticle.style.height = size + 'px';
-                scatterParticle.style.left = mouseX + 'px';
-                scatterParticle.style.top = mouseY + 'px';
-                
-                scatterParticle.animate([
-                    { transform: `translate(-50%, -50%) translate(0, 0) scale(0.5) rotate(0deg)`, opacity: 0.8 },
-                    { transform: `translate(-50%, -50%) translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px) scale(2) rotate(720deg)`, opacity: 0 }
-                ], {
-                    duration: 600, // Faster animation
-                    easing: 'ease-out',
-                    fill: 'forwards'
-                }).onfinish = () => scatterParticle.remove();
-            }
-            lastScatterTime = currentTime;
-        }
     });
 
     document.addEventListener('mousedown', (e) => {
-        // Re-introduce Warp Jump on click
+        // Re-introduce Warp Jump on click (optional, based on user preference)
         const warpJumpElement = document.createElement('div');
-        warpJumpElement.className = 'warp-jump-ripple'; // New class for warp jump
+        warpJumpElement.className = 'warp-jump-ripple'; // You'll need to ensure this CSS class is defined or removed.
         cursorContainer.appendChild(warpJumpElement);
         warpJumpElement.style.left = e.clientX + 'px';
         warpJumpElement.style.top = e.clientY + 'px';
-        warpJumpElement.addEventListener('animationend', () => warpJumpElement.remove());
+        warpJumpElement.animate([
+            { width: '0px', height: '0px', opacity: 0.8, border: '3px solid rgba(96, 165, 250, 0.8)', transform: `translate(-50%, -50%) scale(0)` },
+            { width: '80px', height: '80px', opacity: 0, border: '0px solid rgba(96, 165, 250, 0.8)', transform: `translate(-50%, -50%) scale(1.5)` }
+        ], {
+            duration: 600,
+            easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+            fill: 'forwards'
+        }).onfinish = () => warpJumpElement.remove();
     });
 
     function animateCursor() {
-        // Smoothly move the main cursor dot
-        cursorX += (mouseX - cursorX) * 0.15;
-        cursorY += (mouseY - cursorY) * 0.15;
-        cursorDot.style.left = cursorX + 'px';
-        cursorDot.style.top = cursorY + 'px';
+        // Smoothly move the single cursorGlow element
+        cursorX += (mouseX - cursorX) * 0.2; // Adjusted responsiveness for smooth follow
+        cursorY += (mouseY - cursorY) * 0.2; // Adjusted responsiveness for smooth follow
 
-        // Move glow directly with cursor
         cursorGlow.style.left = cursorX + 'px';
         cursorGlow.style.top = cursorY + 'px';
+
+        // Control opacity based on movement
+        cursorGlow.style.opacity = isMoving ? '1' : '0';
 
         requestAnimationFrame(animateCursor);
     }
     animateCursor();
 
-    // Hover effect for clickable elements
+    // Hover effect for clickable elements (now targets the single cursorGlow)
     const clickableElements = document.querySelectorAll('a, button, input, textarea, select, .btn, [onclick], [href]');
 
     clickableElements.forEach(element => {
         element.addEventListener('mouseenter', () => {
-            cursorDot.classList.add('hover');
-            cursorGlow.style.transform = 'translate(-50%, -50%) scale(1.5)';
-            isHoveringClickable = true;
+            cursorGlow.style.transition = 'transform 0.1s ease-out, box-shadow 0.1s ease-out';
+            cursorGlow.style.transform = 'translate(-50%, -50%) scale(1.3)'; // Scale up main glow on hover
+            cursorGlow.style.boxShadow = '0 0 150px rgba(96, 165, 250, 0.8), inset 0 0 60px rgba(128, 0, 128, 0.6)'; // Stronger hover glow
         });
         element.addEventListener('mouseleave', () => {
-            cursorDot.classList.remove('hover');
-            cursorGlow.style.transform = 'translate(-50%, -50%) scale(1)';
-            isHoveringClickable = false;
+            cursorGlow.style.transition = 'transform 0.3s ease-out, box-shadow 0.3s ease-out';
+            cursorGlow.style.transform = 'translate(-50%, -50%) scale(1)'; // Return to normal size
+            cursorGlow.style.boxShadow = '0 0 150px rgba(96, 165, 250, 0.6), inset 0 0 60px rgba(128, 0, 128, 0.4)'; // Return to normal glow
         });
     });
 
