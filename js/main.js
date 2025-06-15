@@ -202,91 +202,92 @@
     let mouseY = 0;
     let cursorX = 0;
     let cursorY = 0;
-    let lastParticleTime = 0; // To control particle spawning rate
-    const particleInterval = 30; // milliseconds between particles for stardust
+    let lastParticleTime = 0; 
+    const particleInterval = 20; // Increased frequency for more dust
+    let isHoveringClickable = false; // To track hover state for gravitational pull
 
     document.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
 
-        // Create aura ripple on mouse movement
-        const aura = document.createElement('div');
-        aura.className = 'aura-ripple';
-        cursorContainer.appendChild(aura);
-        aura.style.left = mouseX + 'px';
-        aura.style.top = mouseY + 'px';
-        // Remove aura after animation
-        aura.addEventListener('animationend', () => aura.remove());
+        // Create aura ripple on mouse movement (less frequent)
+        if (Date.now() % 100 < 20) { // Reduced frequency for aura ripples
+            const aura = document.createElement('div');
+            aura.className = 'aura-ripple';
+            cursorContainer.appendChild(aura);
+            aura.style.left = mouseX + 'px';
+            aura.style.top = mouseY + 'px';
+            aura.addEventListener('animationend', () => aura.remove());
+        }
     });
 
     document.addEventListener('mousedown', (e) => {
-        const clickRippleElement = document.createElement('div');
-        clickRippleElement.className = 'aura-ripple'; // Using aura-ripple for styling consistency
-        clickRippleElement.style.background = 'transparent'; // Make it transparent for border effect
-        clickRippleElement.style.border = '2px solid rgba(96, 165, 250, 0.7)'; // Border for the ripple
-        cursorContainer.appendChild(clickRippleElement);
-        clickRippleElement.style.left = e.clientX + 'px';
-        clickRippleElement.style.top = e.clientY + 'px';
-        clickRippleElement.style.animation = 'clickRipple 0.8s ease-out forwards';
-        clickRippleElement.addEventListener('animationend', () => clickRippleElement.remove());
+        const warpJumpElement = document.createElement('div');
+        warpJumpElement.className = 'warp-jump-ripple'; // New class for warp jump
+        cursorContainer.appendChild(warpJumpElement);
+        warpJumpElement.style.left = e.clientX + 'px';
+        warpJumpElement.style.top = e.clientY + 'px';
+        warpJumpElement.addEventListener('animationend', () => warpJumpElement.remove());
     });
 
     function animateCursor() {
         // Smoothly move the main cursor dot
-        cursorX += (mouseX - cursorX) * 0.15; // Adjust smoothing factor
-        cursorY += (mouseY - cursorY) * 0.15; // Adjust smoothing factor
+        cursorX += (mouseX - cursorX) * 0.15; 
+        cursorY += (mouseY - cursorY) * 0.15; 
         cursorDot.style.left = cursorX + 'px';
         cursorDot.style.top = cursorY + 'px';
 
-        // Create stardust particles at a controlled rate
+        // Create cosmic dust particles at a controlled rate
         const currentTime = Date.now();
         if (currentTime - lastParticleTime > particleInterval) {
             const particle = document.createElement('div');
-            particle.className = 'stardust-particle'; // Changed class name
+            particle.className = 'cosmic-dust-particle'; // Changed class name
             cursorContainer.appendChild(particle);
 
-            const size = Math.random() * 6 + 2; // Smaller random size between 2px and 8px
-            const angle = Math.random() * Math.PI * 2; // Random direction
-            const distance = Math.random() * 25 + 5; // Random distance between 5px and 30px
+            const size = Math.random() * 5 + 1; // Smaller random size between 1px and 6px
+            let angle = Math.random() * Math.PI * 2; // Random direction
+            const distance = Math.random() * 30 + 10; // Random distance
+
+            // Gravitational Pull: Adjust particle direction if hovering over clickable element
+            if (isHoveringClickable) {
+                // Simple adjustment: particles move slightly towards the cursor center
+                angle += (Math.random() - 0.5) * 0.5; // Slight deviation
+            }
 
             particle.style.width = size + 'px';
             particle.style.height = size + 'px';
-            // Spawn particles slightly behind the smoothed cursor position for a trailing effect
-            particle.style.left = cursorX + Math.cos(angle) * 5 + 'px'; // Small offset
-            particle.style.top = cursorY + Math.sin(angle) * 5 + 'px'; // Small offset
+            particle.style.left = cursorX + 'px'; // Spawn from cursor
+            particle.style.top = cursorY + 'px';
             
-            // Animate particle movement and fade
-            // Reusing fadeInOut animation, but it can be more specific for stardust if needed
-            const animationDuration = Math.random() * 1.5 + 1; // Random duration between 1s and 2.5s
-            particle.style.animationDuration = animationDuration + 's';
-            particle.style.animationName = 'fadeInOut'; // Ensure fadeInOut is used
-
+            // Apply cosmicDustAnimation
             particle.animate([
-                { transform: `translate(-50%, -50%) translate(0, 0)`, opacity: 0, filter: 'blur(1px)' },
-                { transform: `translate(-50%, -50%) translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`, opacity: 0.8, filter: 'blur(0px)' },
-                { transform: `translate(-50%, -50%) translate(${Math.cos(angle) * distance * 1.5}px, ${Math.sin(angle) * distance * 1.5}px)`, opacity: 0, filter: 'blur(2px)' }
+                { transform: `translate(-50%, -50%) translate(0, 0) scale(0) rotate(0deg)`, opacity: 0, filter: 'blur(1px)' },
+                { transform: `translate(-50%, -50%) translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px) scale(1) rotate(180deg)`, opacity: 0.8, filter: 'blur(0px)' },
+                { transform: `translate(-50%, -50%) translate(${Math.cos(angle) * distance * 1.5}px, ${Math.sin(angle) * distance * 1.5}px) scale(0) rotate(360deg)`, opacity: 0, filter: 'blur(2px)' }
             ], {
-                duration: animationDuration * 1000, // Convert to milliseconds
+                duration: Math.random() * 2000 + 1000, // Random duration between 1s and 3s
                 easing: 'ease-out',
                 fill: 'forwards'
-            }).onfinish = () => particle.remove(); // Remove particle after animation
+            }).onfinish = () => particle.remove(); 
 
-            lastParticleTime = currentTime; // Update last particle creation time
+            lastParticleTime = currentTime; 
         }
 
         requestAnimationFrame(animateCursor);
     }
     animateCursor();
 
-    // Hover effect for clickable elements
-    const clickableElements = document.querySelectorAll('a, button, input, textarea, select, .btn');
+    // Hover effect for clickable elements (updated for gravitational pull)
+    const clickableElements = document.querySelectorAll('a, button, input, textarea, select, .btn, [onclick], [href]');
 
     clickableElements.forEach(element => {
         element.addEventListener('mouseenter', () => {
             cursorDot.classList.add('hover');
+            isHoveringClickable = true; // Set hover state
         });
         element.addEventListener('mouseleave', () => {
             cursorDot.classList.remove('hover');
+            isHoveringClickable = false; // Reset hover state
         });
     });
 

@@ -909,31 +909,47 @@ a, button, input, textarea, select {
 
 .cursor-dot {
     position: absolute;
-    width: 10px; /* Slightly larger main cursor dot */
-    height: 10px;
-    background-color: rgb(96, 165, 250); /* Primary blue */
+    width: 12px; /* Slightly larger for the nebula core */
+    height: 12px;
+    background: radial-gradient(circle at center, 
+        rgba(96, 165, 250, 0.9) 0%, /* Core bright */
+        rgba(37, 99, 235, 0.7) 50%, /* Mid blue */
+        transparent 100% /* Fade out */
+    ); /* Iridescent nebula core */
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    transition: width 0.2s ease-out, height 0.2s ease-out, background-color 0.2s ease-out, box-shadow 0.2s ease-out; /* Smooth transition for interaction */
+    transition: width 0.3s ease-out, height 0.3s ease-out, box-shadow 0.3s ease-out; /* Smoother transitions */
     mix-blend-mode: screen;
-    box-shadow: 0 0 15px rgba(96, 165, 250, 0.7), 0 0 30px rgba(96, 165, 250, 0.4); /* Subtle glow */
-    animation: cursorPulse 2s infinite alternate; /* Pulsating effect when idle */
+    box-shadow: 0 0 20px rgba(96, 165, 250, 0.8), 0 0 40px rgba(96, 165, 250, 0.5); /* Stronger glow */
+    animation: nebulaPulse 2.5s infinite alternate ease-in-out; /* Slower, more ethereal pulse */
+    filter: hue-rotate(0deg); /* For color shifting */
 }
 
 .cursor-dot.hover {
-    width: 30px; /* Larger size on hover */
-    height: 30px;
-    background-color: rgba(96, 165, 250, 0.8); /* Slightly more opaque on hover */
-    box-shadow: 0 0 25px rgba(96, 165, 250, 0.9), 0 0 50px rgba(96, 165, 250, 0.6); /* Stronger glow on hover */
+    width: 36px; /* Even larger size on hover for impact */
+    height: 36px;
+    background: radial-gradient(circle at center, 
+        rgba(96, 165, 250, 1) 0%, 
+        rgba(37, 99, 235, 0.9) 50%, 
+        transparent 100%
+    ); /* More intense on hover */
+    box-shadow: 0 0 35px rgba(96, 165, 250, 1), 0 0 70px rgba(96, 165, 250, 0.8); /* Stronger glow on hover */
+    animation: none; /* Stop pulsing on hover */
+    filter: hue-rotate(20deg); /* Subtle color shift on hover */
 }
 
-.stardust-particle {
+.cosmic-dust-particle {
     position: absolute;
-    background: radial-gradient(circle, rgba(96, 165, 250, 0.8) 0%, rgba(37, 99, 235, 0.5) 50%, transparent 100%); /* Softer gradient for particles */
-    border-radius: 50%;
+    background: radial-gradient(circle, 
+        rgba(96, 165, 250, 0.9) 0%, 
+        rgba(37, 99, 235, 0.6) 50%, 
+        transparent 100%
+    ); /* Soft gradient for cosmic dust */
+    border-radius: 50%; /* Default to round */
     opacity: 0;
-    filter: blur(1px); /* Soften the edges */
+    filter: blur(0.5px); /* Very subtle blur */
     mix-blend-mode: screen;
+    animation: cosmicDustAnimation 2s ease-out forwards; /* New animation for dust */
 }
 
 .aura-ripple {
@@ -948,9 +964,27 @@ a, button, input, textarea, select {
     pointer-events: none;
 }
 
-@keyframes cursorPulse {
-    0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-    100% { transform: translate(-50%, -50%) scale(1.05); opacity: 0.8; }
+.warp-jump-ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: transparent;
+    border: 3px solid rgba(96, 165, 250, 0.8); /* Stronger border for warp jump */
+    transform: translate(-50%, -50%);
+    animation: warpJump 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; /* Faster, more impactful animation */
+    mix-blend-mode: screen;
+    pointer-events: none;
+}
+
+@keyframes nebulaPulse {
+    0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 20px rgba(96, 165, 250, 0.8), 0 0 40px rgba(96, 165, 250, 0.5); filter: hue-rotate(0deg); }
+    100% { transform: translate(-50%, -50%) scale(1.05); box-shadow: 0 0 25px rgba(96, 165, 250, 1), 0 0 50px rgba(96, 165, 250, 0.7); filter: hue-rotate(10deg); }
+}
+
+@keyframes cosmicDustAnimation {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0) rotate(0deg); }
+    10% { opacity: 0.8; transform: translate(-50%, -50%) scale(1) rotate(30deg); }
+    50% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.7) rotate(180deg); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(0) rotate(360deg); }
 }
 
 @keyframes auraExpand {
@@ -958,9 +992,9 @@ a, button, input, textarea, select {
     100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
 }
 
-@keyframes clickRipple {
-    0% { transform: translate(-50%, -50%) scale(0); opacity: 0.8; border-width: 5px; }
-    100% { transform: translate(-50%, -50%) scale(2); opacity: 0; border-width: 0; }
+@keyframes warpJump {
+    0% { width: 0; height: 0; opacity: 0.8; border-width: 3px; }
+    100% { width: 80px; height: 80px; opacity: 0; border-width: 0; }
 }
 
 @keyframes fadeInOut {
