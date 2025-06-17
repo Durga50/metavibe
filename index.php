@@ -27,7 +27,7 @@
                         <img src="img/about.jpg" class="img-fluid rounded about-img" alt="">
                     </div>
                     <div class="col-lg-7 wow bounceInUp" data-wow-delay="0.3s">
-                        <small class="d-inline-block fw-bold text-dark text-uppercase bg-light border border-primary rounded-pill px-4 py-1 mb-3">About Us</small>
+                        <small class="d-inline-block fw-bold text-dark text-uppercase bg-light border border-primary rounded-pill px-4 py-1 mb-3 wow animated about-us-animated-text about-us-white-bg" data-wow-delay="0.5s" style="background-color:white;">About Us</small>
                         <h1 class="display-5 mb-4">Driven by Design. Backed by Code. Trusted Since 2025.</h1>
                         <p class="mb-4">KD MetaVibe is a creative tech company specializing in custom web development and digital marketing. We help businesses build stunning, responsive websites and grow their online presence with smart, results-driven marketing strategies. At KD MetaVibe, we blend design, code, and creativity to elevate your brand in the digital world.</p>
                         <!-- <div class="row g-4 text-dark mb-5">
@@ -97,7 +97,7 @@
         <div class="container-fluid service py-6">
             <div class="container">
                 <div class="text-center wow bounceInUp" data-wow-delay="0.1s">
-                    <small class="d-inline-block fw-bold text-dark text-uppercase bg-light border border-primary rounded-pill px-4 py-1 mb-3">Our Services</small>
+                    <small class="d-inline-block fw-bold text-dark text-uppercase bg-light border border-primary rounded-pill px-4 py-1 mb-3 wow animated about-us-animated-text about-us-white-bg" data-wow-delay="0.5s">Our Services</small>
                     <h1 class="display-5 mb-5">What We Offer</h1>
                 </div>
                 <div class="row g-4">
@@ -189,7 +189,7 @@
         <div class="container-fluid team py-6">
             <div class="container">
                 <div class="text-center wow bounceInUp" data-wow-delay="0.1s">
-                    <small class="d-inline-block fw-bold text-dark text-uppercase bg-light border border-primary rounded-pill px-4 py-1 mb-3">Our Team</small>
+                    <small class="d-inline-block fw-bold text-dark text-uppercase bg-light border border-primary rounded-pill px-4 py-1 mb-3 wow animated about-us-animated-text about-us-white-bg" data-wow-delay="0.5s">Our Team</small>
                     <h1 class="display-5 mb-5">Co-Founders</h1>
                 </div>
                 <div class="row g-4 justify-content-center">
@@ -235,7 +235,7 @@
         <div class="container-fluid py-6">
             <div class="container">
                 <div class="text-center wow bounceInUp" data-wow-delay="0.1s">
-                    <small class="d-inline-block fw-bold text-dark text-uppercase bg-light border border-primary rounded-pill px-4 py-1 mb-3">Testimonial</small>
+                    <small class="d-inline-block fw-bold text-dark text-uppercase bg-light border border-primary rounded-pill px-4 py-1 mb-3 wow animated about-us-animated-text about-us-white-bg" data-wow-delay="0.5s">Testimonial</small>
                     <h1 class="display-5 mb-5">What Our Customers says!</h1>
                 </div>
                 <div class="owl-carousel owl-theme testimonial-carousel testimonial-carousel-1 mb-4 wow bounceInUp" data-wow-delay="0.1s">

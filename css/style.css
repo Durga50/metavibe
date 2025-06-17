@@ -546,72 +546,15 @@ h4, h5, h6, .h4, .h5, .h6 {
     position: relative;
     overflow: hidden;
     border-radius: 20px;
-    border: 1px solid rgba(96, 165, 250, 0.2);
-    backdrop-filter: blur(10px);
-    background: rgba(96, 165, 250, 0.05);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
     transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-    transform-style: preserve-3d;
-    perspective: 1000px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    padding-bottom: 0px; /* Adjusted padding at the bottom */
-    z-index: 1; /* Ensure team-item is above other elements if needed, and establishes a stacking context */
-}
-
-.team-item::before {
-    content: '';
-    position: absolute;
-    top: -50%; /* Adjust to cover the entire area for the conic-gradient */
-    left: -50%; /* Adjust to cover the entire area for the conic-gradient */
-    width: 200%; /* Make it larger to ensure the gradient covers the corners */
-    height: 200%; /* Make it larger to ensure the gradient covers the corners */
-    background: conic-gradient(
-        from 0deg,
-        rgba(96, 165, 250, 0.8) 0%,   /* Light blue */
-        rgba(37, 99, 235, 0.8) 25%,   /* Medium blue */
-        rgba(128, 0, 128, 0.8) 50%,   /* Purple */
-        rgba(75, 0, 130, 0.8) 75%,    /* Indigo */
-        rgba(0, 255, 255, 0.8) 100%   /* Cyan */
-    );
-    animation: gooey-border-dance 8s linear infinite, borderanimation 4s linear infinite, corner-flicker 3s infinite alternate, inner-border-pulse 2s ease-in-out infinite; /* Apply all animations, including the new inner-border-pulse */
-    z-index: -2; /* Place behind the inner content and the ::after element */
-    border-radius: 20px; /* Inherit or explicitly set border-radius to match the card */
-    opacity: 1; /* Make it visible */
-    transition: opacity 0.6s ease; /* Keep transition for opacity on hover */
-    filter: blur(2px); /* Apply a subtle blur for the gooey effect */
-}
-
-.team-item::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: url('data:image/svg+xml;utf8,<svg width="100%" height="100%" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke="rgba(96,165,250,0.05)" stroke-width="1"><polyline points="0,100 100,200 200,100 300,200 400,100 500,200 600,100 700,200 800,100"/><polyline points="0,300 100,400 200,300 300,400 400,300 500,400 600,300 700,400 800,300"/><polyline points="0,500 100,600 200,500 300,600 400,500 500,600 600,500 700,600 800,500"/><polyline points="0,0 100,100 200,0 300,100 400,0 500,100 600,0 700,100 800,0"/><polyline points="0,200 100,300 200,200 300,300 400,200 500,300 600,200 700,300 800,200"/></g></svg>');
-    background-size: cover;
-    background-position: center;
-    opacity: 0.2;
-    transition: opacity 0.6s ease, transform 0.6s ease;
-    z-index: -1; /* Place between ::before and the content */
-    mix-blend-mode: screen;
 }
 
 .team-item:hover {
-    transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
-    box-shadow: 0 20px 40px rgba(96, 165, 250, 0.2),
-                0 0 20px rgba(96, 165, 250, 0.1);
-    border-color: rgba(96, 165, 250, 0.4);
-}
-
-.team-item:hover::before {
-    opacity: 1;
-    filter: blur(4px); /* Slightly more blur on hover for a subtle glow */
-}
-
-.team-item:hover::after {
-    opacity: 0.4;
-    transform: scale(1.05);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(96, 165, 250, 0.2);
 }
 
 .team-item img {
@@ -621,7 +564,7 @@ h4, h5, h6, .h4, .h5, .h6 {
     border-radius: 50%;
     padding: 3px;
     background-color: var(--bs-dark);
-    margin-top: 25px;
+    margin: 25px auto 0 auto; /* Center the image horizontally and keep top margin */
     box-shadow: 0 0 15px rgba(96, 165, 250, 0.5);
     transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
     transform-style: preserve-3d;
@@ -1093,6 +1036,39 @@ a, button, input, textarea, select {
     }
 }
 
+@keyframes animatedGradientText {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.about-us-animated-text {
+    background: linear-gradient(90deg, 
+        rgba(96, 165, 250, 1), /* Light blue */
+        rgba(37, 99, 235, 1),  /* Medium blue */
+        rgba(128, 0, 128, 1),  /* Purple */
+        rgba(75, 0, 130, 1),   /* Indigo */
+        rgba(0, 255, 255, 1),  /* Cyan */
+        rgba(96, 165, 250, 1)  /* Loop back to light blue */
+    );
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: animatedGradientText 4s ease infinite, textGlow 2s infinite alternate; /* Combine with textGlow */
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    font-weight: 900 !important; /* Make text bold - corrected to a standard value */
+    font-size: 1.2rem; /* Increase font size */
+    border-width: 2px !important; /* Increase border thickness */
+}
+
 @keyframes nebulaPulse {
     0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 20px rgba(96, 165, 250, 0.8), 0 0 40px rgba(96, 165, 250, 0.5); filter: hue-rotate(0deg); }
     100% { transform: translate(-50%, -50%) scale(1.05); box-shadow: 0 0 25px rgba(96, 165, 250, 1), 0 0 50px rgba(96, 165, 250, 0.7); filter: hue-rotate(10deg); }
@@ -1348,30 +1324,30 @@ a, button, input, textarea, select {
 /* Hero Image Animations (Overhauled) */
 .img-hero {
     position: relative;
-    overflow: visible; /* Changed from hidden to visible to show the border effect */
-    border-radius: 20px;
+    overflow: visible; /* Set to visible to allow glow to extend */
+    border-radius: 50%; /* Keep this for the container's visual shape if not using clip-path on parent */
+    width: 400px; /* Force a square aspect ratio */
+    height: 400px; /* Force a square aspect ratio */
     box-shadow: 0 10px 30px rgba(96, 165, 250, 0.2);
     transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
     transform-style: preserve-3d;
     perspective: 1000px;
     display: block;
     margin: 0 auto;
-    max-width: 500px;
-    height: auto;
 }
 
 .img-hero:hover {
-    transform: scale(1.03) rotateZ(1deg); /* Subtle zoom and rotation on hover */
+    transform: scale(1.03) rotateZ(1deg); /* Subtle zoom and rotation on hover, removed translateY */
     box-shadow: 0 15px 45px rgba(96, 165, 250, 0.4); /* More pronounced shadow */
 }
 
 .img-hero::before {
     content: '';
     position: absolute;
-    top: -4px; /* Half of desired border thickness (8px) */
-    left: -4px; /* Half of desired border thickness (8px) */
-    width: calc(100% + 8px); /* Image width + 2*border thickness */
-    height: calc(100% + 8px); /* Image height + 2*border thickness */
+    top: -15px; /* Adjust to extend the glow further out */
+    left: -15px; /* Adjust to extend the glow further out */
+    width: calc(100% + 30px); /* Adjust width to match top/left changes */
+    height: calc(100% + 30px); /* Adjust height to match top/left changes */
     background: conic-gradient(
         from 0deg,
         rgba(96, 165, 250, 1) 0%,
@@ -1380,11 +1356,12 @@ a, button, input, textarea, select {
         rgba(75, 0, 130, 1) 75%,
         rgba(0, 255, 255, 1) 100%
     ); /* Multi-colored gradient based on theme primary colors */
-    animation: borderanimation 4s linear infinite; /* Apply the new border animation */
+    animation: borderanimation 4s linear infinite, subtleGlow 2s ease-in-out infinite alternate; /* Added subtleGlow */
     z-index: -1; /* Place behind the image */
-    border-radius: 24px; /* Existing image border-radius (20px) + half border thickness (4px) */
+    border-radius: 50%; /* Ensure this is circular */
     opacity: 1; /* Fully visible */
-    filter: blur(0px); /* No blur for a sharp border */
+    filter: blur(8px); /* Apply blur for glow effect */
+    box-shadow: 0 0 20px rgba(96, 165, 250, 0.8), 0 0 30px rgba(37, 99, 235, 0.6); /* Add box shadow for glow */
     background-size: 200% 200%; /* Needed for the gradient movement */
 }
 
@@ -1396,7 +1373,7 @@ a, button, input, textarea, select {
     right: -4px;
     bottom: -4px;
     border: 2px solid transparent;
-    border-radius: 0px; /* Changed from 22px to 0px for sharp corners */
+    border-radius: 50%; /* Make the after pseudo-element circular */
     background: linear-gradient(
         45deg,
         rgba(96, 165, 250, 0.8),
@@ -1426,10 +1403,12 @@ a, button, input, textarea, select {
 }
 
 .img-hero img {
-    width: 100%;
-    height: 100%;
+    width: 100%; /* Ensure image fills the circular container */
+    height: 100%; /* Ensure image fills the circular container */
     object-fit: cover;
-    border-radius: 20px;
+    border-radius: 0; /* Remove border-radius here as clip-path will handle circularity */
+    clip-path: circle(50% at 50% 50%); /* Make the image circular using clip-path */
+    display: block; /* Ensure the image respects border-radius properly */
     transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
     transform-style: preserve-3d;
     z-index: 2;
@@ -2086,4 +2065,160 @@ a, button, input, textarea, select {
     .service-card {
         margin: 20px 0; /* Reset margin on mobile */
     }
+}
+
+.about-us-white-bg {
+    background-color: var(--bs-white) !important; /* Force white background for About Us tag */
+}
+
+/* Service Card Border Animation */
+.service-card {
+    position: relative;
+    background: var(--bs-light);
+    border-radius: 20px;
+    padding: 2.5rem;
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow: visible;
+}
+
+.service-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, 
+        rgba(96, 165, 250, 1),  /* Light blue */
+        rgba(37, 99, 235, 1),   /* Medium blue */
+        rgba(128, 0, 128, 1),   /* Purple */
+        rgba(75, 0, 130, 1),    /* Indigo */
+        rgba(0, 255, 255, 1),   /* Cyan */
+        rgba(96, 165, 250, 1)   /* Back to light blue */
+    );
+    background-size: 400% 400%;
+    border-radius: 22px;
+    z-index: -1;
+    animation: gradientBorderAnimation 4s ease infinite;
+    filter: blur(2px);
+}
+
+.service-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bs-light);
+    border-radius: 20px;
+    z-index: -1;
+}
+
+/* Team Card Border Animation */
+.team-item {
+    position: relative;
+    overflow: visible;
+}
+
+.team-item::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, 
+        rgba(96, 165, 250, 1),  /* Light blue */
+        rgba(37, 99, 235, 1),   /* Medium blue */
+        rgba(128, 0, 128, 1),   /* Purple */
+        rgba(75, 0, 130, 1),    /* Indigo */
+        rgba(0, 255, 255, 1),   /* Cyan */
+        rgba(96, 165, 250, 1)   /* Back to light blue */
+    );
+    background-size: 400% 400%;
+    border-radius: 20px;
+    z-index: -1;
+    animation: gradientBorderAnimation 4s ease infinite;
+    filter: blur(2px);
+}
+
+.team-item::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bs-dark);
+    border-radius: 20px;
+    z-index: -1;
+}
+
+/* Testimonial Card Border Animation */
+.testimonial-item {
+    position: relative;
+    overflow: visible;
+    background: var(--bs-light) !important;
+}
+
+.testimonial-item::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, 
+        rgba(96, 165, 250, 1),  /* Light blue */
+        rgba(37, 99, 235, 1),   /* Medium blue */
+        rgba(128, 0, 128, 1),   /* Purple */
+        rgba(75, 0, 130, 1),    /* Indigo */
+        rgba(0, 255, 255, 1),   /* Cyan */
+        rgba(96, 165, 250, 1)   /* Back to light blue */
+    );
+    background-size: 400% 400%;
+    border-radius: 20px;
+    z-index: -1;
+    animation: gradientBorderAnimation 4s ease infinite;
+    filter: blur(2px);
+}
+
+.testimonial-item::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bs-light);
+    border-radius: 20px;
+    z-index: -1;
+}
+
+@keyframes gradientBorderAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Hover effects for cards */
+.service-card:hover::before,
+.team-item:hover::before,
+.testimonial-item:hover::before {
+    filter: blur(4px);
+    animation: gradientBorderAnimation 2s ease infinite;
+}
+
+.service-card:hover,
+.team-item:hover,
+.testimonial-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(96, 165, 250, 0.2);
 }
